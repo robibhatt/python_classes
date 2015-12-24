@@ -53,6 +53,26 @@ class Directed_Graph:
                         distances[v] = distances[u] + w
         return distances
 
+    def delete_edge(self, (u,v,w)):
+        del (self.graph_dict[u][self.outward][v])
+        del (self.graph_dict[v][self.inward][u])
 
+    def delete_vertex(self, u):
+        for v in self.graph_dict[u][self.outward].keys():
+            del (self.graph_dict[v][self.inward][u])
+        for v in self.graph_dict[u][self.inward].keys():
+            del (self.graph_dict[v][self.outward][u])
+        del self.graph_dict[u]
         
-        
+    def get_outer_edges(self, u):
+        return self.graph_dict[u][self.outward]
+
+    def get_inner_edges(self, u):
+        return self.graph_dict[u][self.inward]
+
+    def get_edge_weight(self, u,v):
+        if v in self.graph_dict[u][self.outward].keys():
+            return self.graph_dict[u][self.outward][v]
+        else:
+            return None
+    
