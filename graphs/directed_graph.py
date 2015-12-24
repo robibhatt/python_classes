@@ -1,5 +1,7 @@
 class Directed_Graph:
 
+    inward = 0
+    outward = 1
 
     def __init__(self):
         self.graph_dict = {}
@@ -18,8 +20,8 @@ class Directed_Graph:
 
     def add_edge(self, edge):
         (from_vertex, to_vertex, weight) = edge
-        self.graph_dict[from_vertex][1][to_vertex] = weight
-        self.graph_dict[to_vertex][0][from_vertex] = weight
+        self.graph_dict[from_vertex][self.outward][to_vertex] = weight
+        self.graph_dict[to_vertex][self.inward][from_vertex] = weight
         
 
     def list_vertices(self):
@@ -29,13 +31,13 @@ class Directed_Graph:
     def list_edges(self):
         edges = []
         for v in self.graph_dict.keys():
-            edges += [(v, x, self.graph_dict[v][1][x]) for x in self.graph_dict[v][1].keys()]
+            edges += [(v, x, self.graph_dict[v][self.outward][x]) for x in self.graph_dict[v][self.outward].keys()]
         return edges
 
     def num_edges(self):
         number = 0
         for v in self.graph_dict.keys():
-            number += len(self.graph_dict[v][1].keys())
+            number += len(self.graph_dict[v][self.outward].keys())
         return number
 
     def bellman_ford(self, source):
@@ -50,5 +52,7 @@ class Directed_Graph:
                     else:
                         distances[v] = distances[u] + w
         return distances
+
+
         
         
