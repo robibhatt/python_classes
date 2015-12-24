@@ -4,6 +4,9 @@ class Directed_Graph:
     def __init__(self):
         self.graph_dict = {}
 
+    def num_vertices(self):
+        return len(self.graph_dict.keys())
+
         
     def add_vertex(self, vertex):
         if vertex in self.graph_dict.keys():
@@ -28,5 +31,24 @@ class Directed_Graph:
         for v in self.graph_dict.keys():
             edges += [(v, x, self.graph_dict[v][1][x]) for x in self.graph_dict[v][1].keys()]
         return edges
+
+    def num_edges(self):
+        number = 0
+        for v in self.graph_dict.keys():
+            number += len(self.graph_dict[v][1].keys())
+        return number
+
+    def bellman_ford(self, source):
+        distances = {}
+        distances[source] = 0
+        for i in range(self.num_vertices() - 1):
+            for (u,v,w) in self.list_edges():
+                if u in distances.keys():
+                    if v in distances.keys():
+                        if distances[v] > distances[u] + w:
+                            distances[v] = distances[u] + w
+                    else:
+                        distances[v] = distances[u] + w
+        return distances
         
         
